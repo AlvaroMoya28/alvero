@@ -1,0 +1,54 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using EventosBackend.Models.Configuration;
+using EventosBackend.Models.Entities;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+
+namespace EventosBackend.Services
+{
+    public class JwtService : IJwtService
+    {
+        private readonly JwtSettings _jwtSettings;
+
+        public JwtService(IOptions<JwtSettings> jwtSettings)
+        {
+            _jwtSettings = jwtSettings.Value;
+        }
+
+        public string GenerateToken(Usuario usuario)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            // Crear claims con todos los datos necesarios
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, usuario.IdUsuario),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, usuario.IdUnico), // ID_UNICO para referencias FK
+                new Claim("idUsuario", usuario.IdUsuario),
+                new Claim("idUnico", usuario.IdUnico), // Agregado explícitamente
+                new Claim(ClaimTypes.Email, usuario.Email),
+                new Claim("nombre", usuario.Nombre),
+                new Claim("apellido1", usuario.Apellido1),
+                new Claim("apellido2", usuario.Apellido2 ?? string.Empty),
+                new Claim("telefono", usuario.Telefono ?? string.Empty),
+                new Claim("tipoUsuario", usuario.TipoUsuario),
+                new Claim("estado", usuario.Estado),
+                new Claim(ClaimTypes.Role, usuario.TipoUsuario)
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: _jwtSettings.ValidIssuer,
+                audience: _jwtSettings.ValidAudience,
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(_jwtSettings.ExpiryInMinutes),
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+    }
+}

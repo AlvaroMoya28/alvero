@@ -1,0 +1,56 @@
+:root {
+  --dp-primary: #0b5bd7; /* Azul DoctorPC */
+  --dp-dark: #052e5d; /* Fondo de navegación */
+  --dp-darkest: #03213f; /* Header lateral */
+  --dp-accent: #00c853; /* Acción / CTA */
+  --dp-text: #ffffff;
+  --dp-bg: #f4f7fb;
+}
+
+html, body, #app {
+  height: 100%;
+}
+
+body {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--dp-bg);
+  color: #0b2136;
+  margin: 0;
+}
+
+.brand-title {
+  color: var(--dp-text);
+  font-weight: 700;
+  margin-left: 0.6rem;
+  font-size: 1.05rem;
+  display: inline-block;
+  line-height: 1;
+}
+.brand-sub {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 500;
+  opacity: 0.9;
+  color: rgba(255,255,255,0.9);
+}
+
+.btn-primary,
+.btn-cta {
+  background: var(--dp-accent);
+  border-color: var(--dp-accent);
+  color: #fff;
+}
+
+.hero-doctorpc {
+  background: linear-gradient(90deg, rgba(11,91,215,0.06), rgba(0,200,83,0.03));
+  padding: 4rem 1rem;
+  border-radius: 12px;
+}
+
+/* pequeñas utilidades */
+.text-dp-primary { color: var(--dp-primary); }
+.bg-dp-primary { background: var(--dp-primary); color: white; }
+
+@media (max-width: 768px) {
+  .brand-title { display: none; }
+}

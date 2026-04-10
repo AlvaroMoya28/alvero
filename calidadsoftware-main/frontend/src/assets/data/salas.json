@@ -1,0 +1,410 @@
+[
+  {
+    "id": 1,
+    "nombre": "Sala Ejecutiva",
+    "descripcionCorta": "Ideal para reuniones corporativas con capacidad para 10 personas",
+    "descripcion": "La Sala Ejecutiva está equipada con todo lo necesario para reuniones de negocios exitosas.",
+    "precio": "$99.99",
+    "precioAlta": "$120/h",
+    "precioBaja": "$90/h",
+    "imagen": "/sala_1.jpg",
+    "galeria": [
+      "/sala_1.jpg",
+      "https://images.unsplash.com/photo-1565538810643-b5bdb714032a",
+      "https://images.unsplash.com/photo-1571624436279-b272aff752b5",
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f"
+    ],
+    "capacidad": 10,
+    "ubicacion": "Av. Reforma 123, Ciudad Empresarial",
+    "horario": "Lunes a Viernes: 8:00 AM - 8:00 PM",
+    "espacio": 45,
+    "vehiculos": 15,
+    "detallesPago": "30% de depósito para reservar. Cancelación con 48 horas de anticipación.",
+    "equipamiento": [
+      { "nombre": "Proyector HD", "cantidad": 1 },
+      { "nombre": "Sistema de sonido", "cantidad": 1 },
+      { "nombre": "Micrófonos", "cantidad": 2 }
+    ],
+    "eventos": ["Reuniones ejecutivas", "Presentaciones", "Entrevistas"],
+    "catering": [
+      { 
+        "nombre": "Coffee Break Ejecutivo", 
+        "descripcion": "Incluye café premium, té, jugos naturales y selección de bocadillos." 
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "nombre": "Sala Conferencias",
+    "descripcionCorta": "Amplio espacio para eventos con capacidad para 50 personas",
+    "descripcion": "La Sala de Conferencias está diseñada para seminarios, talleres y reuniones grandes.",
+    "precio": "$149.99",
+    "precioAlta": "$180/h",
+    "precioBaja": "$140/h",
+    "imagen": "/sala_2.jpg",
+    "galeria": [
+      "/sala_2.jpg",
+      "https://images.unsplash.com/photo-1571624436279-b272aff752b5",
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
+      "https://images.unsplash.com/photo-1565538810643-b5bdb714032a"
+    ],
+    "capacidad": 50,
+    "ubicacion": "Calle Central 456, Zona Centro",
+    "horario": "Lunes a Domingo: 7:00 AM - 10:00 PM",
+    "espacio": 120,
+    "vehiculos": 30,
+    "detallesPago": "50% de depósito para reservar. Cancelación con 72 horas de anticipación.",
+    "equipamiento": [
+      { "nombre": "Pantalla gigante", "cantidad": 1 },
+      { "nombre": "Audio profesional", "cantidad": 1 },
+      { "nombre": "Micrófonos inalámbricos", "cantidad": 4 }
+    ],
+    "eventos": ["Conferencias", "Talleres", "Capacitaciones"],
+    "catering": [
+      { 
+        "nombre": "Almuerzo de Negocios", 
+        "descripcion": "Menú ejecutivo con entrada, plato principal y postre." 
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "nombre": "Sala Creativa",
+    "descripcionCorta": "Ambiente inspirador para sesiones de brainstorming",
+    "descripcion": "Perfecta para equipos creativos que buscan inspiración en un entorno moderno.",
+    "precio": "$119.99",
+    "precioAlta": "$140/h",
+    "precioBaja": "$110/h",
+    "imagen": "/sala_3.png",
+    "galeria": [
+      "/sala_3.png",
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
+      "https://images.unsplash.com/photo-1565538810643-b5bdb714032a",
+      "https://images.unsplash.com/photo-1571624436279-b272aff752b5"
+    ],
+    "capacidad": 12,
+    "ubicacion": "Boulevard Creativo 789, Zona Norte",
+    "horario": "Lunes a Viernes: 9:00 AM - 7:00 PM",
+    "espacio": 60,
+    "vehiculos": 10,
+    "detallesPago": "25% de depósito para reservar. Cancelación con 24 horas de anticipación.",
+    "equipamiento": [
+      { "nombre": "Pizarra interactiva", "cantidad": 1 },
+      { "nombre": "Pantalla LED", "cantidad": 1 },
+      { "nombre": "Sillas ergonómicas", "cantidad": 12 }
+    ],
+    "eventos": ["Brainstorming", "Diseño", "Planificación"],
+    "catering": [
+      { 
+        "nombre": "Snacks Creativos", 
+        "descripcion": "Selección de snacks saludables y bebidas energizantes." 
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "nombre": "Sala VIP",
+    "descripcionCorta": "Lujo y comodidad para reuniones exclusivas",
+    "descripcion": "La Sala VIP ofrece un espacio elegante y privado para juntas de alto nivel con atención personalizada.",
+    "precio": "$199.99",
+    "precioAlta": "$220/h",
+    "precioBaja": "$180/h",
+    "imagen": "/sala_4.jpg",
+    "galeria": [
+      "/sala_4.jpg",
+      "https://images.unsplash.com/photo-1554469384-e58fac16e23a",
+      "https://images.unsplash.com/photo-1565538810643-b5bdb714032a",
+      "https://images.unsplash.com/photo-1571624436279-b272aff752b5"
+    ],
+    "capacidad": 8,
+    "ubicacion": "Av. Lujo 101, Distrito Financiero",
+    "horario": "Lunes a Sábado: 9:00 AM - 9:00 PM",
+    "espacio": 50,
+    "vehiculos": 10,
+    "detallesPago": "40% de depósito para reservar. Cancelación con 5 días de anticipación.",
+    "equipamiento": [
+      { "nombre": "Pantalla táctil", "cantidad": 1 },
+      { "nombre": "Sistema de videoconferencia", "cantidad": 1 },
+      { "nombre": "Mobiliario premium", "cantidad": 8 }
+    ],
+    "eventos": ["Reuniones ejecutivas", "Presentaciones VIP", "Eventos exclusivos"],
+    "catering": [
+      { 
+        "nombre": "Servicio Gourmet", 
+        "descripcion": "Menú degustación con chef personal y selección de vinos." 
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "nombre": "Sala Multimedia",
+    "descripcionCorta": "Equipada con tecnología de última generación",
+    "descripcion": "Sala moderna con sistemas de proyección y sonido de alta fidelidad para presentaciones impactantes.",
+    "precio": "$129.99",
+    "precioAlta": "$150/h",
+    "precioBaja": "$120/h",
+    "imagen": "/sala_5.jpg",
+    "galeria": [
+      "/sala_5.jpg",
+      "https://images.unsplash.com/photo-1497366811353-6870744d04b2",
+      "https://images.unsplash.com/photo-1565538810643-b5bdb714032a",
+      "https://images.unsplash.com/photo-1571624436279-b272aff752b5"
+    ],
+    "capacidad": 20,
+    "ubicacion": "TecnoPark 202, Edificio C",
+    "horario": "Lunes a Domingo: 8:00 AM - 10:00 PM",
+    "espacio": 80,
+    "vehiculos": 20,
+    "detallesPago": "35% de depósito para reservar. Cancelación con 48 horas de anticipación.",
+    "equipamiento": [
+      { "nombre": "Proyector 4K", "cantidad": 1 },
+      { "nombre": "Sistema de sonido 5.1", "cantidad": 1 },
+      { "nombre": "Control remoto inteligente", "cantidad": 2 }
+    ],
+    "eventos": ["Presentaciones multimedia", "Lanzamientos", "Demostraciones"],
+    "catering": [
+      { 
+        "nombre": "Paquete Tecnológico", 
+        "descripcion": "Bebidas energéticas y snacks tecnológicos para equipos creativos." 
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "nombre": "Sala Formación",
+    "descripcionCorta": "Perfecta para talleres y capacitaciones",
+    "descripcion": "Espacio diseñado para la formación continua de equipos y profesionales con mobiliario modular.",
+    "precio": "$89.99",
+    "precioAlta": "$110/h",
+    "precioBaja": "$80/h",
+    "imagen": "/sala_6.jpeg",
+    "galeria": [
+      "/sala_6.jpeg",
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
+      "https://images.unsplash.com/photo-1565538810643-b5bdb714032a",
+      "https://images.unsplash.com/photo-1571624436279-b272aff752b5"
+    ],
+    "capacidad": 25,
+    "ubicacion": "Zona Educativa 303, Torre B",
+    "horario": "Lunes a Viernes: 7:00 AM - 7:00 PM",
+    "espacio": 90,
+    "vehiculos": 25,
+    "detallesPago": "25% de depósito para reservar. Cancelación con 24 horas de anticipación.",
+    "equipamiento": [
+      { "nombre": "Pizarra digital", "cantidad": 1 },
+      { "nombre": "Mesas modulares", "cantidad": 6 },
+      { "nombre": "Material didáctico", "cantidad": 25 }
+    ],
+    "eventos": ["Talleres", "Capacitaciones", "Sesiones educativas"],
+    "catering": [
+      { 
+        "nombre": "Coffee Break Educativo", 
+        "descripcion": "Selección de bebidas y snacks para mantener la energía en sesiones largas." 
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "nombre": "Sala Ejecutiva Plus",
+    "descripcionCorta": "Reuniones corporativas con máxima privacidad",
+    "descripcion": "Versión mejorada de nuestra sala ejecutiva con mayor espacio y comodidades adicionales.",
+    "precio": "$129.99",
+    "precioAlta": "$150/h",
+    "precioBaja": "$120/h",
+    "imagen": "/sala_1.jpg",
+    "galeria": [
+      "/sala_1.jpg",
+      "https://images.unsplash.com/photo-1565538810643-b5bdb714032a",
+      "https://images.unsplash.com/photo-1571624436279-b272aff752b5",
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f"
+    ],
+    "capacidad": 12,
+    "ubicacion": "Av. Reforma 123, Ciudad Empresarial",
+    "horario": "Lunes a Viernes: 7:00 AM - 9:00 PM",
+    "espacio": 55,
+    "vehiculos": 15,
+    "detallesPago": "30% de depósito para reservar. Cancelación con 48 horas de anticipación.",
+    "equipamiento": [
+      { "nombre": "Proyector HD", "cantidad": 1 },
+      { "nombre": "Sistema de sonido", "cantidad": 1 },
+      { "nombre": "Pantalla secundaria", "cantidad": 1 }
+    ],
+    "eventos": ["Reuniones estratégicas", "Presentaciones ejecutivas", "Negociaciones"],
+    "catering": [
+      { 
+        "nombre": "Servicio Ejecutivo Plus", 
+        "descripcion": "Selección premium de bebidas y bocadillos gourmet." 
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "nombre": "Sala Conferencias Premium",
+    "descripcionCorta": "Eventos corporativos de gran escala",
+    "descripcion": "Nuestra sala de conferencias más grande, ideal para convenciones y eventos importantes.",
+    "precio": "$179.99",
+    "precioAlta": "$200/h",
+    "precioBaja": "$160/h",
+    "imagen": "/sala_2.jpg",
+    "galeria": [
+      "/sala_2.jpg",
+      "https://images.unsplash.com/photo-1571624436279-b272aff752b5",
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
+      "https://images.unsplash.com/photo-1565538810643-b5bdb714032a"
+    ],
+    "capacidad": 80,
+    "ubicacion": "Calle Central 456, Zona Centro",
+    "horario": "Lunes a Domingo: 6:00 AM - 11:00 PM",
+    "espacio": 150,
+    "vehiculos": 50,
+    "detallesPago": "50% de depósito para reservar. Cancelación con 1 semana de anticipación.",
+    "equipamiento": [
+      { "nombre": "Pantalla gigante 4K", "cantidad": 2 },
+      { "nombre": "Sistema de audio profesional", "cantidad": 1 },
+      { "nombre": "Micrófonos inalámbricos", "cantidad": 6 }
+    ],
+    "eventos": ["Convenciones", "Seminarios", "Asambleas"],
+    "catering": [
+      { 
+        "nombre": "Banquete Corporativo", 
+        "descripcion": "Servicio completo de banquetes para eventos de gran escala." 
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "nombre": "Sala Creativa Plus",
+    "descripcionCorta": "Espacio colaborativo para equipos innovadores",
+    "descripcion": "Versión ampliada de nuestra sala creativa con más herramientas para la innovación.",
+    "precio": "$139.99",
+    "precioAlta": "$160/h",
+    "precioBaja": "$130/h",
+    "imagen": "/sala_3.png",
+    "galeria": [
+      "/sala_3.png",
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
+      "https://images.unsplash.com/photo-1565538810643-b5bdb714032a",
+      "https://images.unsplash.com/photo-1571624436279-b272aff752b5"
+    ],
+    "capacidad": 15,
+    "ubicacion": "Boulevard Creativo 789, Zona Norte",
+    "horario": "Lunes a Sábado: 8:00 AM - 8:00 PM",
+    "espacio": 70,
+    "vehiculos": 12,
+    "detallesPago": "30% de depósito para reservar. Cancelación con 48 horas de anticipación.",
+    "equipamiento": [
+      { "nombre": "Pizarra interactiva 4K", "cantidad": 1 },
+      { "nombre": "Pantallas colaborativas", "cantidad": 3 },
+      { "nombre": "Mobiliario creativo", "cantidad": 15 }
+    ],
+    "eventos": ["Design Thinking", "Innovación", "Sesiones creativas"],
+    "catering": [
+      { 
+        "nombre": "Creativity Fuel", 
+        "descripcion": "Bebidas energizantes y snacks creativos para mantener la inspiración." 
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "nombre": "Sala VIP Platinum",
+    "descripcionCorta": "Máximo lujo para reuniones exclusivas",
+    "descripcion": "Nuestra sala más exclusiva, con acabados de lujo y servicios personalizados de primer nivel.",
+    "precio": "$249.99",
+    "precioAlta": "$280/h",
+    "precioBaja": "$230/h",
+    "imagen": "/sala_4.jpg",
+    "galeria": [
+      "/sala_4.jpg",
+      "https://images.unsplash.com/photo-1554469384-e58fac16e23a",
+      "https://images.unsplash.com/photo-1565538810643-b5bdb714032a",
+      "https://images.unsplash.com/photo-1571624436279-b272aff752b5"
+    ],
+    "capacidad": 6,
+    "ubicacion": "Av. Lujo 101, Distrito Financiero",
+    "horario": "24/7 con reservación previa",
+    "espacio": 45,
+    "vehiculos": 6,
+    "detallesPago": "50% de depósito para reservar. Cancelación con 1 semana de anticipación.",
+    "equipamiento": [
+      { "nombre": "Sistema de videoconferencia 8K", "cantidad": 1 },
+      { "nombre": "Mobiliario de diseño", "cantidad": 6 },
+      { "nombre": "Control ambiental inteligente", "cantidad": 1 }
+    ],
+    "eventos": ["Reuniones de directorio", "Negociaciones VIP", "Eventos exclusivos"],
+    "catering": [
+      { 
+        "nombre": "Servicio Ejecutivo Platinum", 
+        "descripcion": "Menú gourmet con chef personal y sommelier incluido." 
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "nombre": "Sala Multimedia Pro",
+    "descripcionCorta": "Tecnología de punta para presentaciones impactantes",
+    "descripcion": "Equipada con los últimos avances tecnológicos para experiencias multimedia inmersivas.",
+    "precio": "$159.99",
+    "precioAlta": "$180/h",
+    "precioBaja": "$150/h",
+    "imagen": "/sala_5.jpg",
+    "galeria": [
+      "/sala_5.jpg",
+      "https://images.unsplash.com/photo-1497366811353-6870744d04b2",
+      "https://images.unsplash.com/photo-1565538810643-b5bdb714032a",
+      "https://images.unsplash.com/photo-1571624436279-b272aff752b5"
+    ],
+    "capacidad": 25,
+    "ubicacion": "TecnoPark 202, Edificio C",
+    "horario": "Lunes a Domingo: 7:00 AM - 11:00 PM",
+    "espacio": 100,
+    "vehiculos": 25,
+    "detallesPago": "40% de depósito para reservar. Cancelación con 72 horas de anticipación.",
+    "equipamiento": [
+      { "nombre": "Proyector láser 8K", "cantidad": 1 },
+      { "nombre": "Sistema de sonido Dolby Atmos", "cantidad": 1 },
+      { "nombre": "Realidad virtual", "cantidad": 4 }
+    ],
+    "eventos": ["Lanzamientos tecnológicos", "Demostraciones inmersivas", "Presentaciones VR"],
+    "catering": [
+      { 
+        "nombre": "Tech Experience", 
+        "descripcion": "Menú futurista con presentación tecnológica." 
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "nombre": "Sala Formación Avanzada",
+    "descripcionCorta": "Entorno ideal para aprendizaje especializado",
+    "descripcion": "Diseñada específicamente para programas de formación avanzada y desarrollo profesional.",
+    "precio": "$109.99",
+    "precioAlta": "$130/h",
+    "precioBaja": "$100/h",
+    "imagen": "/sala_6.jpeg",
+    "galeria": [
+      "/sala_6.jpeg",
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
+      "https://images.unsplash.com/photo-1565538810643-b5bdb714032a",
+      "https://images.unsplash.com/photo-1571624436279-b272aff752b5"
+    ],
+    "capacidad": 30,
+    "ubicacion": "Zona Educativa 303, Torre B",
+    "horario": "Lunes a Sábado: 6:00 AM - 8:00 PM",
+    "espacio": 110,
+    "vehiculos": 30,
+    "detallesPago": "30% de depósito para reservar. Cancelación con 48 horas de anticipación.",
+    "equipamiento": [
+      { "nombre": "Pizarra digital interactiva", "cantidad": 2 },
+      { "nombre": "Sistema de videoconferencia", "cantidad": 1 },
+      { "nombre": "Estaciones de trabajo", "cantidad": 30 }
+    ],
+    "eventos": ["Certificaciones", "Talleres avanzados", "Capacitaciones técnicas"],
+    "catering": [
+      { 
+        "nombre": "Fuel for Learning", 
+        "descripcion": "Combinación de alimentos para mejorar la concentración y el aprendizaje." 
+      }
+    ]
+  }
+]

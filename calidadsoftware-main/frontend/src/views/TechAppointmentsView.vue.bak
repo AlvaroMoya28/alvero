@@ -1,0 +1,840 @@
+<template>
+  <div class="book-appointment-container">
+    <h2>Reservar Cita de Soporte Técnico</h2>
+
+    <div class="filters">
+      <label>
+        Semana:
+        <input type="date" v-model="fechaInicio" @change="cargarDisponibilidad" />
+      </label>
+    </div>
+
+    <div v-if="loading" class="loading">Cargando disponibilidad...</div>
+
+    <div v-else class="disponibilidad-grid">
+      <div class="day-header" v-for="dia in diasSemana" :key="dia.fecha">
+        <strong>{{ dia.nombre }}</strong>
+        <br />
+        <span>{{ formatearFecha(dia.fecha) }}</span>
+      </div>
+
+      <div v-for="hora in horasDisponibles" :key="hora" class="hour-row">
+        <div class="hour-label">{{ hora }}:00</div>
+        <div v-for="dia in diasSemana" :key="`${dia.fecha}-${hora}`" class="time-slot"
+          :class="getSlotClass(dia.fecha, hora)" @click="seleccionarSlot(dia.fecha, hora)">
+          <div class="slot-info">
+            <span v-if="getSlotDisponibilidad(dia.fecha, hora) > 0">
+              {{ getSlotDisponibilidad(dia.fecha, hora) }} disponible(s)
+            </span>
+            <span v-else class="no-disponible">No disponible</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de reserva -->
+    <div v-if="slotSeleccionado" class="modal-overlay" @click.self="cerrarModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Confirmar Cita de Soporte</h3>
+          <button class="modal-close" @click="cerrarModal" type="button" aria-label="Cerrar">&times;</button>
+        </div>
+
+        <div class="modal-scroll-container">
+          <div class="modal-body">
+            <div class="cita-info-box">
+              <div class="info-item">
+                <i class="bi bi-calendar-event"></i>
+                <span><strong>Fecha:</strong> {{ formatearFechaCompleta(slotSeleccionado.fecha) }}</span>
+              </div>
+              <div class="info-item">
+                <i class="bi bi-clock"></i>
+                <span><strong>Hora:</strong> {{ slotSeleccionado.hora }}:00 - {{ parseInt(slotSeleccionado.hora) + 1
+                  }}:00</span>
+              </div>
+              <div class="info-item">
+                <i class="bi bi-person-badge"></i>
+                <span><strong>Técnico:</strong> {{ slotSeleccionado.tecnicos[0].nombreTecnico }}</span>
+              </div>
+            </div>
+
+            <form @submit.prevent="confirmarReserva" class="reserva-form">
+              <div class="form-section">
+                <h4>Información del Cliente</h4>
+                <div class="form-group">
+                  <label>Nombre Completo *</label>
+                  <input type="text" v-model="formulario.nombreCliente" placeholder="Nombre completo del cliente"
+                    required />
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Correo Electrónico *</label>
+                    <input type="email" v-model="formulario.emailCliente" placeholder="correo@ejemplo.com" required />
+                  </div>
+                  <div class="form-group">
+                    <label>Cédula *</label>
+                    <input type="text" v-model="formulario.cedulaCliente" placeholder="123456789" required />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Teléfono de Contacto *</label>
+                    <input type="tel" v-model="formulario.telefonoContacto" placeholder="8888-9999" required />
+                  </div>
+                  <div class="form-group">
+                    <label>Dirección *</label>
+                    <input type="text" v-model="formulario.direccion" placeholder="Dirección del servicio" required />
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <h4>Detalles del Servicio</h4>
+                <div class="form-group">
+                  <label>Descripción del Problema *</label>
+                  <textarea v-model="formulario.descripcionProblema" rows="3"
+                    placeholder="Explica brevemente el problema..." required></textarea>
+                </div>
+              </div>
+
+              <div class="modal-actions">
+                <button type="submit" class="btn-primary">
+                  <i class="bi bi-check-circle"></i>
+                  Confirmar Reserva
+                </button>
+                <button type="button" @click="cerrarModal" class="btn-secondary">
+                  <i class="bi bi-x-circle"></i>
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue'
+import CitaService from '@/services/CitaService'
+
+const fechaInicio = ref(new Date().toISOString().split('T')[0])
+const disponibilidad = ref([])
+const loading = ref(false)
+const slotSeleccionado = ref(null)
+const formulario = ref({
+  nombreCliente: '',
+  emailCliente: '',
+  cedulaCliente: '',
+  telefonoContacto: '',
+  direccion: '',
+  descripcionProblema: ''
+})
+
+const horasDisponibles = [8, 9, 10, 11, 13, 14, 15, 16]
+
+const diasSemana = computed(() => {
+  const selected = new Date(fechaInicio.value)
+  const day = selected.getDay()
+  const diffToMonday = (day === 0 ? -6 : 1 - day)
+  const monday = new Date(selected)
+  monday.setDate(selected.getDate() + diffToMonday)
+
+  const dias = []
+  for (let i = 0; i < 5; i++) {
+    const fecha = new Date(monday)
+    fecha.setDate(monday.getDate() + i)
+    dias.push({
+      fecha: fecha.toISOString().split('T')[0],
+      nombre: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'][fecha.getDay()]
+    })
+  }
+  return dias
+})
+
+const cargarDisponibilidad = async () => {
+  loading.value = true
+  try {
+    const inicio = diasSemana.value[0].fecha
+    const fin = diasSemana.value[4].fecha
+    disponibilidad.value = await CitaService.obtenerDisponibilidadGeneral(inicio, fin)
+  } catch (error) {
+    console.error('Error al cargar disponibilidad:', error)
+    alert('Error al cargar disponibilidad')
+  } finally {
+    loading.value = false
+  }
+}
+
+const getSlotDisponibilidad = (fecha, hora) => {
+  const slot = disponibilidad.value.find(d =>
+    d.fecha.split('T')[0] === fecha && d.horaInicio === `${hora.toString().padStart(2, '0')}:00`
+  )
+  return slot ? slot.tecnicosDisponibles : 0
+}
+
+const getSlotClass = (fecha, hora) => {
+  const cant = getSlotDisponibilidad(fecha, hora)
+  if (cant === 0) return 'slot-no-disponible'
+  if (cant === 1) return 'slot-disponible-uno'
+  return 'slot-disponible-varios'
+}
+
+const seleccionarSlot = (fecha, hora) => {
+  const cant = getSlotDisponibilidad(fecha, hora)
+  if (cant === 0) return
+
+  const slot = disponibilidad.value.find(d =>
+    d.fecha.split('T')[0] === fecha && d.horaInicio === `${hora.toString().padStart(2, '0')}:00`
+  )
+
+  slotSeleccionado.value = {
+    fecha,
+    hora,
+    tecnicosDisponibles: cant,
+    tecnicos: slot.tecnicos
+  }
+  document.body.classList.add('modal-open')
+}
+
+const cerrarModal = () => {
+  slotSeleccionado.value = null
+  formulario.value = {
+    nombreCliente: '',
+    emailCliente: '',
+    cedulaCliente: '',
+    telefonoContacto: '',
+    direccion: '',
+    descripcionProblema: ''
+  }
+  document.body.classList.remove('modal-open')
+}
+
+const confirmarReserva = async () => {
+  try {
+    // Seleccionar técnico automáticamente (el primero disponible)
+    const tecnicoSeleccionado = slotSeleccionado.value.tecnicos[0].idTecnico
+
+    const citaData = {
+      nombreCliente: formulario.value.nombreCliente,
+      emailCliente: formulario.value.emailCliente,
+      cedulaCliente: formulario.value.cedulaCliente,
+      idUsuarioTecnico: tecnicoSeleccionado,
+      fechaCita: slotSeleccionado.value.fecha,
+      horaInicio: `${slotSeleccionado.value.hora.toString().padStart(2, '0')}:00`,
+      telefonoContacto: formulario.value.telefonoContacto,
+      direccion: formulario.value.direccion,
+      descripcionProblema: formulario.value.descripcionProblema
+    }
+
+    await CitaService.crearCita(citaData)
+    cerrarModal()
+    alert('Cita reservada exitosamente. Recibirá un correo de confirmación.')
+    cargarDisponibilidad()
+  } catch (error) {
+    console.error('Error al crear cita:', error)
+    alert('Error al crear la cita: ' + (error.response?.data?.message || error.message))
+  }
+}
+
+const formatearFecha = (fecha) => {
+  const date = new Date(fecha + 'T00:00:00')
+  return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' })
+}
+
+const formatearFechaCompleta = (fecha) => {
+  const date = new Date(fecha + 'T00:00:00')
+  return date.toLocaleDateString('es-ES', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
+}
+
+onMounted(() => {
+  cargarDisponibilidad()
+})
+</script>
+
+<style scoped>
+.book-appointment-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.filters {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.filters label {
+  margin-right: 15px;
+  font-weight: 500;
+  color: #495057;
+}
+
+.filters input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.1em;
+  color: #666;
+}
+
+.disponibilidad-grid {
+  display: grid;
+  grid-template-columns: 80px repeat(5, 1fr);
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.day-header {
+  text-align: center;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  font-size: 0.9em;
+  border: 1px solid #e9ecef;
+}
+
+.hour-row {
+  display: contents;
+}
+
+.hour-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid #e9ecef;
+}
+
+.time-slot {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slot-disponible-uno {
+  background-color: #fff3cd;
+  border-color: #ffeaa7;
+}
+
+.slot-disponible-varios {
+  background-color: #d1e7dd;
+  border-color: #a3cfbb;
+}
+
+.slot-no-disponible {
+  background-color: #f8d7da;
+  border-color: #f1aeb5;
+  cursor: not-allowed;
+}
+
+.time-slot:hover:not(.slot-no-disponible) {
+  transform: scale(1.02);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.slot-info {
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+.no-disponible {
+  color: #721c24;
+}
+
+/* Modal Styles - Completely Fixed */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  animation: modalAppear 0.3s ease-out;
+  overflow: hidden;
+}
+
+@keyframes modalAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e9ecef;
+  background: white;
+  position: relative;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #f8f9fa;
+  border: none;
+  font-size: 24px;
+  color: #6c757d;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+  z-index: 11;
+}
+
+.modal-close:hover {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+.modal-scroll-container {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.modal-body {
+  padding: 0 24px 24px;
+  display: flex;
+  flex-direction: column;
+  min-height: min-content;
+}
+
+.reserva-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-section {
+  background: #fafbfc;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #e9ecef;
+}
+
+.form-section h4 {
+  margin: 0 0 16px 0;
+  color: #2c3e50;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #007bff;
+}
+
+.cita-info-box {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 0 0 20px 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cita-info-box .info-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 8px 0;
+}
+
+.cita-info-box .info-item:last-child {
+  margin-bottom: 0;
+}
+
+.cita-info-box .info-item i {
+  color: white;
+  font-size: 1.2rem;
+  min-width: 20px;
+  text-align: center;
+}
+
+.cita-info-box .info-item span {
+  color: white;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.cita-info-box .info-item strong {
+  font-weight: 600;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #495057;
+  font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  background: white;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  background: white;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #9ca3af;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.4;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 1px solid #e9ecef;
+  flex-shrink: 0;
+  background: white;
+  position: sticky;
+  bottom: 0;
+}
+
+.btn-primary {
+  flex: 2;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+}
+
+.btn-secondary {
+  flex: 1;
+  padding: 14px 20px;
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+}
+
+/* Responsive Design - Critical Fixes */
+@media (max-width: 768px) {
+  .book-appointment-container {
+    padding: 15px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .disponibilidad-grid {
+    grid-template-columns: 70px repeat(5, 1fr);
+    gap: 6px;
+  }
+
+  .time-slot {
+    padding: 10px;
+    min-height: 50px;
+  }
+
+  .slot-info {
+    font-size: 0.8em;
+  }
+
+  .modal-overlay {
+    padding: 15px;
+    align-items: flex-start;
+  }
+
+  .modal-content {
+    max-height: 90vh;
+    margin-top: 20px;
+    max-width: 100%;
+  }
+
+  .modal-header {
+    padding: 16px 20px;
+  }
+
+  .modal-header h3 {
+    font-size: 1.2rem;
+    padding-right: 30px;
+  }
+
+  .modal-body {
+    padding: 0 20px 20px;
+  }
+
+  .modal-scroll-container {
+    max-height: calc(90vh - 80px);
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .form-section {
+    padding: 14px;
+  }
+
+  .cita-info-box {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    gap: 10px;
+    position: sticky;
+    bottom: 0;
+    background: white;
+    padding: 16px 0 0;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    flex: none;
+    width: 100%;
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .book-appointment-container {
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  .disponibilidad-grid {
+    grid-template-columns: 60px repeat(5, 1fr);
+    gap: 4px;
+    font-size: 0.8em;
+  }
+
+  .day-header,
+  .hour-label {
+    padding: 8px 4px;
+  }
+
+  .time-slot {
+    padding: 8px 4px;
+    min-height: 45px;
+  }
+
+  .modal-overlay {
+    padding: 10px;
+  }
+
+  .modal-content {
+    max-height: 95vh;
+    margin-top: 10px;
+    border-radius: 12px;
+  }
+
+  .modal-header {
+    padding: 14px 16px;
+  }
+
+  .modal-header h3 {
+    font-size: 1.1rem;
+    padding-right: 25px;
+  }
+
+  .modal-body {
+    padding: 0 16px 16px;
+  }
+
+  .modal-scroll-container {
+    max-height: calc(95vh - 60px);
+  }
+
+  .cita-info-box {
+    padding: 14px;
+    margin-bottom: 14px;
+  }
+
+  .cita-info-box .info-item {
+    font-size: 0.9rem;
+    gap: 10px;
+  }
+
+  .form-group {
+    margin-bottom: 14px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .form-section {
+    padding: 12px;
+  }
+}
+
+/* For very small screens (height < 600px) */
+@media (max-height: 600px) {
+  .modal-overlay {
+    align-items: flex-start;
+  }
+
+  .modal-content {
+    max-height: 98vh;
+    margin-top: 5px;
+  }
+
+  .modal-scroll-container {
+    max-height: calc(98vh - 70px);
+  }
+}
+
+/* Ensure modal is always on top */
+.modal-overlay {
+  z-index: 10000 !important;
+}
+</style>
+
+<style>
+/* Global styles to lock page scroll when modal is open */
+body.modal-open {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+/* Smooth scrolling for modal */
+.modal-scroll-container {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Bootstrap Icons */
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css');
+</style>

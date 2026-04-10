@@ -1,0 +1,74 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "eslint . --ext .vue",
+    "test:unit": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "@stripe/stripe-js": "^7.4.0",
+    "axios": "^1.10.0",
+    "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.9",
+    "core-js": "^3.8.3",
+    "date-fns": "^4.1.0",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
+    "jwt-decode": "^4.0.0",
+    "pinia": "^3.0.2",
+    "vue": "^3.2.0",
+    "vue-chartjs": "^5.3.2",
+    "vue-draggable-next": "^2.2.1",
+    "vue-multiselect": "^3.0.0-beta.3",
+    "vue-router": "^4.0.0",
+    "vue-toastification": "^2.0.0-rc.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@pinia/testing": "^1.0.2",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "@vue/test-utils": "^2.4.0-alpha.2",
+    "babel-jest": "^26.6.3",
+    "eslint": "^8.57.1",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.6.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "flush-promises": "^1.0.2",
+    "jest": "^26.6.3",
+    "npm-run-all": "^4.1.5",
+    "sass": "^1.86.2",
+    "sass-loader": "^16.0.5",
+    "vue-jest": "^5.0.0-alpha.10"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
+}

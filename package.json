@@ -1,0 +1,9 @@
+{
+  "name": "vero",
+  "private": true,
+  "scripts": {
+    "serve": "cd frontend && npm run serve",
+    "frontend": "cd frontend && npm run serve",
+    "backend": "cd backend && dotnet run"
+  }
+}

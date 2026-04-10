@@ -1,0 +1,89 @@
+Summary
+  Generated on: 27/11/2025 - 00:17:08
+  Coverage date: 27/11/2025 - 00:17:02
+  Parser: Cobertura
+  Assemblies: 1
+  Classes: 67
+  Files: 63
+  Line coverage: 12.4%
+  Covered lines: 468
+  Uncovered lines: 3306
+  Coverable lines: 3774
+  Total lines: 5782
+  Branch coverage: 10.2% (43 of 418)
+  Covered branches: 43
+  Total branches: 418
+  Method coverage: 30.2% (121 of 400)
+  Full method coverage: 27% (108 of 400)
+  Covered methods: 121
+  Fully covered methods: 108
+  Total methods: 400
+
+EventosBackend                                                           12.4%
+  EventosBackend.Controllers.CitasController                               22%
+  EventosBackend.Controllers.PagoController                                 0%
+  EventosBackend.Controllers.ResenasController                              0%
+  EventosBackend.Controllers.TiposEventoController                          0%
+  EventosBackend.Controllers.UsuariosController                             0%
+  EventosBackend.Mappings.ReservaProfile                                    0%
+  EventosBackend.Migrations.CompleteSalaModelWithRelations                  0%
+  EventosBackend.Migrations.InitialCreate                                   0%
+  EventosBackend.Migrations.OracleDbContextModelSnapshot                    0%
+  EventosBackend.Migrations.RemoveHorarioAddHorarioInicioFin                0%
+  EventosBackend.Models.Configuration.CitaConfiguration                     0%
+  EventosBackend.Models.Configuration.EmailSettings                         0%
+  EventosBackend.Models.Configuration.JwtSettings                         100%
+  EventosBackend.Models.Configuration.TecnicoHorarioConfiguration           0%
+  EventosBackend.Models.Context.Configurations.UsuarioConfiguration         0%
+  EventosBackend.Models.Context.OracleDbContext                           9.2%
+  EventosBackend.Models.DTOs.Requests.BloquearHorarioRequest              100%
+  EventosBackend.Models.DTOs.Requests.ChangePasswordRequestDto              0%
+  EventosBackend.Models.DTOs.Requests.ContactoAsesorRequest                 0%
+  EventosBackend.Models.DTOs.Requests.CrearCitaRequest                    100%
+  EventosBackend.Models.DTOs.Requests.CreatePaymentIntentRequest            0%
+  EventosBackend.Models.DTOs.Requests.FavoritoRequest                       0%
+  EventosBackend.Models.DTOs.Requests.GenerarHorariosRequest              100%
+  EventosBackend.Models.DTOs.Requests.LoginRequest                          0%
+  EventosBackend.Models.DTOs.Requests.ResenaCreateRequest                   0%
+  EventosBackend.Models.DTOs.Requests.ReservaRequest                      100%
+  EventosBackend.Models.DTOs.Requests.TipoEventoRequest                     0%
+  EventosBackend.Models.DTOs.Requests.UsuarioCreateRequest                  0%
+  EventosBackend.Models.DTOs.Requests.UsuarioCreateRequestNoValidation      0%
+  EventosBackend.Models.DTOs.Requests.UsuarioUpdateRequest                  0%
+  EventosBackend.Models.DTOs.Responses.CitaResponse                       100%
+  EventosBackend.Models.DTOs.Responses.DisponibilidadAgregadaResponse       0%
+  EventosBackend.Models.DTOs.Responses.HorarioDisponibleResponse         88.8%
+  EventosBackend.Models.DTOs.Responses.ReservaResponse                      0%
+  EventosBackend.Models.DTOs.Responses.TecnicoDisponibleInfo                0%
+  EventosBackend.Models.DTOs.Responses.TipoEventoResponse                   0%
+  EventosBackend.Models.DTOs.Responses.UsuarioResponse                   33.3%
+  EventosBackend.Models.Entities.Cita                                    82.3%
+  EventosBackend.Models.Entities.FAVORITO                                   0%
+  EventosBackend.Models.Entities.PAGO                                       0%
+  EventosBackend.Models.Entities.Resena                                     0%
+  EventosBackend.Models.Entities.Reserva                                 53.8%
+  EventosBackend.Models.Entities.TecnicoHorario                             0%
+  EventosBackend.Models.Entities.TIPO_EVENTO                                0%
+  EventosBackend.Models.Entities.Usuario                                 66.6%
+  EventosBackend.Repositories.CitaRepository                                0%
+  EventosBackend.Repositories.TipoEventoRepository                          0%
+  EventosBackend.Repositories.UsuarioRepository                             0%
+  EventosBackend.Services.CitaService                                    36.8%
+  EventosBackend.Services.EmailService                                   72.2%
+  EventosBackend.Services.FileService                                       0%
+  EventosBackend.Services.JwtService                                        0%
+  EventosBackend.Services.PagoService                                       0%
+  EventosBackend.Services.PasswordHasher                                  100%
+  EventosBackend.Services.TipoEventoService                                 0%
+  EventosBackend.Services.UsuarioService                                   25%
+  ForgotPasswordRequest                                                     0%
+  JwtService                                                              100%
+  LoginResponse                                                             0%
+  Program                                                                   0%
+  Repository<T>                                                             0%
+  ReservasController                                                        0%
+  ReservaService                                                         33.9%
+  ResetPasswordRequest                                                      0%
+  UserInfoResponse                                                          0%
+  UsuarioProfile                                                            0%
+  ValidateResetCodeRequest                                                  0%

@@ -1,0 +1,20 @@
+{
+  "name": "doctorpc",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@stripe/stripe-js": "^7.4.0",
+    "axios": "^1.9.0",
+    "sweetalert2": "^11.22.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.1"
+  }
+}

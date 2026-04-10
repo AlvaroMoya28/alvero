@@ -1,0 +1,53 @@
+-- Script para agregar columnas de información de cliente a la tabla CITA
+-- Permite reservas sin necesidad de cuenta de usuario
+
+-- Agregar columnas para información del cliente (si no existen)
+BEGIN
+    EXECUTE IMMEDIATE 'ALTER TABLE CITA ADD (NOMBRE_CLIENTE VARCHAR2(100))';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -1430 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'ALTER TABLE CITA ADD (EMAIL_CLIENTE VARCHAR2(100))';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -1430 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+BEGIN
+    EXECUTE IMMEDIATE 'ALTER TABLE CITA ADD (CEDULA_CLIENTE VARCHAR2(20))';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -1430 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+-- Hacer ID_USUARIO_CLIENTE opcional (si no lo es ya)
+BEGIN
+    EXECUTE IMMEDIATE 'ALTER TABLE CITA MODIFY (ID_USUARIO_CLIENTE VARCHAR2(50) NULL)';
+EXCEPTION
+    WHEN OTHERS THEN
+        IF SQLCODE != -1442 AND SQLCODE != -1451 THEN
+            RAISE;
+        END IF;
+END;
+/
+
+COMMIT;
+
+-- Verificar las columnas
+SELECT COLUMN_NAME, DATA_TYPE, NULLABLE 
+FROM USER_TAB_COLUMNS 
+WHERE TABLE_NAME = 'CITA' 
+  AND COLUMN_NAME IN ('NOMBRE_CLIENTE', 'EMAIL_CLIENTE', 'CEDULA_CLIENTE', 'ID_USUARIO_CLIENTE')
+ORDER BY COLUMN_ID;

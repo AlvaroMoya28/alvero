@@ -1,0 +1,28 @@
+# Build
+obj/
+bin/
+*.exe
+
+# IDEs
+.vs/
+.vscode/
+*.user
+*.suo
+
+appsettings.json
+sqlnet.ora
+
+#EventosBackend/Wallet/
+#EventosBackend/appsettings.json
+#EventosBackend/obj/
+#EventosBackend/bin/
+EventosBackend/obj/Debug/net8.0/apphost.exe
+/EventosBackend/obj/Debug/net8.0
+node_modules/
+
+# Test Results and Coverage Reports
+TestResults/
+**/TestResults/
+coverage.cobertura.xml
+*.trx
+*.coverage
