@@ -4,6 +4,7 @@
   "scripts": {
     "serve": "cd frontend && npm run serve",
     "frontend": "cd frontend && npm run serve",
-    "backend": "cd backend && dotnet run"
+    "backend": "cd backend && dotnet run",
+    "build": "vue-cli-service build"
   }
 }
