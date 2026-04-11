@@ -45,7 +45,9 @@
           <p class="story-label">{{ section.label }}</p>
           <h3>{{ section.title }}</h3>
           <p>{{ section.text }}</p>
-          <img :src="section.src" loading="lazy" />
+          <article v-for="item in visibleGallery" :key="item.src" class="gallery-item">
+            <img :src="item.src" :alt="item.alt" loading="lazy" />
+          </article>
         </article>
       </div>
     </section>
