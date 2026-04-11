@@ -200,6 +200,7 @@ const storySections = [
   {
     label: 'El carnaval de Palmares',
     title: 'Un viernes que ya no era igual',
+    src: require('../images/WhatsApp Image 2026-04-09 at 22.39.15 (5).jpeg'),
     text: 'El 24 de enero del 2025 llegué a Palmares con planes distintos, pero el universo tenía otros para mí: conocerte fue lo mejor que me ha pasado. Fue una tarde inesperada y hermosa, de esas que te cambian el corazón.',
   },
   {
