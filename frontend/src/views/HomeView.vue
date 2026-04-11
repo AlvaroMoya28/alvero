@@ -45,6 +45,7 @@
           <p class="story-label">{{ section.label }}</p>
           <h3>{{ section.title }}</h3>
           <p>{{ section.text }}</p>
+          <p>{{ section.src }}</p>
         </article>
       </div>
     </section>
