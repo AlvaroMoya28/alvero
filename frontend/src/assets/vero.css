@@ -213,40 +213,280 @@ body.night-mode .hero-section::before {
   text-align: center;
 }
 
-.animate {
+/* ============ GSAP ANIMATIONS & SCROLL EFFECTS ============ */
+
+/* Hero Section */
+.hero-copy {
+  will-change: transform, opacity;
+}
+
+.hero-visual {
+  will-change: transform, opacity;
+  perspective: 1200px;
+}
+
+.hero-image-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 40px;
+  box-shadow: 0 40px 80px rgba(188, 216, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  min-height: 420px;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.hero-image-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(0, 0, 0, 0.05) 100%);
+  pointer-events: none;
+  border-radius: 38px;
+  z-index: 1;
+}
+
+.hero-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  will-change: transform;
+  transition: filter 0.3s ease;
+}
+
+.hero-image-wrap:hover img {
+  filter: brightness(1.05);
+}
+
+/* Story Cards - Enhanced with 3D effects */
+.story-card {
+  position: relative;
+  will-change: transform, opacity;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+}
+
+.story-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.4), transparent);
   opacity: 0;
-  transform: translateY(36px);
-  transition: opacity 1.4s ease, transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  border-radius: 32px;
 }
 
-.animate.is-visible {
+.story-card:hover::after {
   opacity: 1;
-  transform: translateY(0);
 }
 
-.hero-copy.animate {
-  transition-delay: 0.2s;
+.story-card:hover {
+  box-shadow: 0 30px 60px rgba(188, 216, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
-.hero-visual.animate {
-  transition-delay: 0.28s;
+/* Gallery Items - Image zoom effect */
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  will-change: transform, opacity;
+  border-radius: 32px;
+  background: linear-gradient(135deg, #f0f8ff, #faf5ff);
 }
 
-.story-card.animate {
-  transition-delay: 0.24s;
+.gallery-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.6), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 2;
 }
 
-.gallery-item.animate {
-  transition-delay: 0.26s;
+.gallery-item:hover::before {
+  opacity: 0;
 }
 
-.plant-card.animate,
-.quiz-card.animate,
-.stat-card.animate,
-.letter-copy.animate,
-.unlock-section.animate,
-.message-card.animate {
-  transition-delay: 0.22s;
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  will-change: transform;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: brightness(0.95) contrast(1.05);
+}
+
+.gallery-item:hover img {
+  transform: scale(1.1) rotate(2deg);
+  filter: brightness(1.1) contrast(1.1);
+}
+
+/* Plant Cards - Rotation effect on hover */
+.plant-card {
+  position: relative;
+  will-change: transform, opacity;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-style: preserve-3d;
+}
+
+.plant-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.3), transparent);
+  opacity: 0;
+  border-radius: 28px;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.plant-card:hover::before,
+.plant-card.active::before {
+  opacity: 1;
+}
+
+.plant-card:hover,
+.plant-card.active {
+  box-shadow: 0 20px 50px rgba(180, 200, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.plant-emoji {
+  font-size: 1.7rem;
+  will-change: transform;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.plant-card:hover .plant-emoji,
+.plant-card.active .plant-emoji {
+  transform: scale(1.3) rotate(-15deg);
+}
+
+/* Quiz Card - Smooth fade and slide */
+.quiz-card {
+  position: relative;
+  will-change: transform, opacity;
+}
+
+.quiz-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(188, 216, 255, 0.1), rgba(255, 216, 232, 0.1));
+  border-radius: 32px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.quiz-card:hover::before {
+  opacity: 1;
+}
+
+/* Stat Cards - Elastic bounce effect */
+.stat-card {
+  position: relative;
+  will-change: transform, opacity;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stat-emoji {
+  display: inline-block;
+  will-change: transform;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stat-card:hover .stat-emoji {
+  transform: scale(1.25) rotate(12deg);
+}
+
+.stat-card:hover {
+  box-shadow: 0 25px 50px rgba(188, 216, 255, 0.3);
+  transform: translateY(-8px);
+}
+
+/* Letter Section - Elegant typography animation */
+.letter-copy {
+  will-change: transform, opacity;
+}
+
+.letter-copy p {
+  will-change: opacity;
+}
+
+/* Unlock Section - Button animations */
+.unlock-button {
+  position: relative;
+  will-change: transform, opacity;
+  overflow: hidden;
+  background: linear-gradient(135deg, #fff2f7 0%, #ffe8f0 100%);
+}
+
+.unlock-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transition: left 0.5s ease;
+}
+
+.unlock-button:hover::before {
+  left: 100%;
+}
+
+.unlock-button:active {
+  transform: scale(0.98);
+}
+
+body.night-mode .unlock-button {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.08));
+}
+
+/* Message Cards - Bounce in effect */
+.message-card {
+  position: relative;
+  will-change: transform, opacity;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.message-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(200, 220, 255, 0.2), rgba(255, 220, 240, 0.2));
+  border-radius: 28px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.message-card:hover::before {
+  opacity: 1;
+}
+
+/* Section Intro - Subtle animations */
+.section-intro {
+  will-change: opacity;
+}
+
+.section-intro h2 {
+  background: linear-gradient(135deg, var(--text) 0%, #4e5a74 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-attachment: fixed;
+  will-change: transform;
+}
+
+/* Plant Detail - Smooth reveal */
+.plant-detail {
+  position: relative;
+  will-change: transform, opacity;
 }
 
 .hero-copy .eyebrow {
@@ -347,22 +587,6 @@ body.night-mode .hero-tags span {
 .hero-visual {
   position: relative;
   min-height: 520px;
-}
-
-.hero-image-wrap {
-  position: relative;
-  overflow: hidden;
-  border-radius: 40px;
-  box-shadow: var(--shadow);
-  min-height: 420px;
-  height: 100%;
-}
-
-.hero-image-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
 }
 
 .floating-hearts {
@@ -522,10 +746,6 @@ body.night-mode .section-intro p {
   transition: transform 0.2s ease;
 }
 
-.story-card:hover {
-  transform: translateY(-4px);
-}
-
 .story-card::before {
   content: '';
   position: absolute;
@@ -605,19 +825,6 @@ body.night-mode .section-intro p {
   transform: scale(1.05);
 }
 
-.gallery-caption {
-  position: absolute;
-  inset: auto 0 0;
-  padding: 18px 22px;
-  background: linear-gradient(180deg, transparent 0%, rgba(14, 15, 20, 0.72) 100%);
-  color: #fff;
-}
-
-.gallery-caption p {
-  margin: 0;
-  font-weight: 500;
-}
-
 .garden-section {
   background: rgba(255, 255, 255, 0.65);
   border-radius: 38px;
@@ -644,19 +851,6 @@ body.night-mode .garden-section {
   cursor: pointer;
   transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
   text-align: left;
-}
-
-.plant-card:hover,
-.plant-card.active {
-  transform: translateY(-3px);
-  border-color: #aac8f5;
-  background: linear-gradient(180deg, #f8fcff 0%, #eef8ff 100%);
-}
-
-body.night-mode .plant-card:hover,
-body.night-mode .plant-card.active {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(149, 179, 235, 0.4);
 }
 
 .plant-emoji {

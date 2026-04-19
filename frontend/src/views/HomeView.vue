@@ -1,7 +1,7 @@
 <template>
   <main class="page-shell" id="home">
     <section class="hero-section" id="home">
-      <div class="hero-copy animate">
+      <div class="hero-copy">
         <p class="eyebrow">Feliz primer año, mi amor 💙</p>
         <h1>Verónica, este es nuestro primer año convertido en un recorrido hermoso.</h1>
         <p class="hero-description">
@@ -17,7 +17,7 @@
         </div>
       </div>
 
-      <div class="hero-visual animate">
+      <div class="hero-visual">
         <div class="floating-hearts">
           <span class="heart" style="--i:1"></span>
           <span class="heart" style="--i:2"></span>
@@ -31,7 +31,7 @@
     </section>
 
     <section class="section-block story-section" id="story">
-      <div class="section-intro animate">
+      <div class="section-intro">
         <p class="eyebrow">Nuestra historia</p>
         <h2>Mini capítulos que cuentan cómo llegamos hasta acá.</h2>
         <p>
@@ -41,7 +41,7 @@
       </div>
 
       <div class="story-grid">
-        <article v-for="section in storySections" :key="section.title" class="story-card animate">
+        <article v-for="section in storySections" :key="section.title" class="story-card">
           <p class="story-label">{{ section.label }}</p>
           <h3>{{ section.title }}</h3>
           <p>{{ section.text }}</p>
@@ -75,7 +75,7 @@
       </div>
     </section>
 
-    <section class="section-block section-soft garden-section animate" id="garden">
+    <section class="section-block section-soft garden-section" id="garden">
       <div class="section-intro">
         <p class="eyebrow">Jardín</p>
         <h2>Nuestro amor es un jardín que cuidamos juntos.</h2>
@@ -89,7 +89,7 @@
         <button
           v-for="plant in plantList"
           :key="plant.id"
-          class="plant-card animate"
+          class="plant-card"
           :class="{ active: activePlant === plant.id }"
           @click="selectPlant(plant.id)">
           <span class="plant-emoji">{{ plant.icon }}</span>
@@ -100,20 +100,20 @@
         </button>
       </div>
 
-      <div class="plant-detail animate">
+      <div class="plant-detail">
         <h3>{{ activePlantData.label }}</h3>
         <p>{{ activePlantData.note }}</p>
       </div>
     </section>
 
-    <section class="section-block quiz-section animate" id="quiz">
+    <section class="section-block quiz-section" id="quiz">
       <div class="section-intro">
         <p class="eyebrow">Juego</p>
         <h2>¿Qué tanto recordás de nosotros? 😏</h2>
         <p>Probá tus recuerdos con este quiz divertido y amoroso.</p>
       </div>
 
-      <div class="quiz-card animate">
+      <div class="quiz-card">
         <form @submit.prevent="submitQuiz">
           <div v-for="question in quiz.questions" :key="question.id" class="quiz-question">
             <p class="question-title">{{ question.question }}</p>
@@ -138,14 +138,14 @@
       </div>
     </section>
 
-    <section class="section-block stats-section animate" id="stats">
+    <section class="section-block stats-section" id="stats">
       <div class="section-intro">
         <p class="eyebrow">Datos curiosos</p>
         <h2>Pequeñas verdades sobre nosotros.</h2>
       </div>
 
       <div class="stats-grid">
-        <article v-for="stat in facts" :key="stat.label" class="stat-card animate">
+        <article v-for="stat in facts" :key="stat.label" class="stat-card">
           <span class="stat-emoji">{{ stat.icon }}</span>
           <h3>{{ stat.label }}</h3>
           <p>{{ stat.value }}</p>
@@ -153,8 +153,8 @@
       </div>
     </section>
 
-    <section class="letter-section animate" id="letter">
-      <div class="letter-copy animate">
+    <section class="letter-section" id="letter">
+      <div class="letter-copy">
         <p class="eyebrow">Carta</p>
         <h2>Mi Amor... gracias por ser tú.</h2>
         <p>
@@ -169,7 +169,7 @@
         <p class="letter-signature">— Álvaro</p>
       </div>
 
-      <div class="unlock-section animate">
+      <div class="unlock-section">
         <p class="unlock-intro">Mensajes desbloqueables</p>
         <div class="unlock-grid">
           <button
@@ -182,7 +182,7 @@
         </div>
 
         <div class="unlocked-messages">
-          <article v-for="message in openedMessagesList" :key="message.id" class="message-card animate">
+          <article v-for="message in openedMessagesList" :key="message.id" class="message-card">
             <h3>{{ message.label }}</h3>
             <p>{{ message.text }}</p>
           </article>
@@ -193,7 +193,11 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onMounted, reactive, ref } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, reactive, ref } from 'vue';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const nightMode = ref(false);
 
@@ -501,22 +505,173 @@ const hasMoreGallery = computed(() => visibleGallery.value.length < galleryItems
 
 const setupRevealAnimations = () => {
   nextTick(() => {
-    const elements = Array.from(document.querySelectorAll('.animate'));
-    if (!elements.length) return;
+    // Hero Section Animation - Staggered reveal
+    gsap.set('.hero-copy', { opacity: 0, y: 50 });
+    gsap.set('.hero-visual', { opacity: 0, x: 50 });
+    
+    gsap.to('.hero-copy', {
+      duration: 1,
+      opacity: 1,
+      y: 0,
+      ease: 'power3.out',
+      delay: 0.2,
+    });
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
+    gsap.to('.hero-visual', {
+      duration: 1.2,
+      opacity: 1,
+      x: 0,
+      ease: 'power3.out',
+      delay: 0.4,
+    });
+
+    // Story Cards - Reveal on scroll with stagger
+    ScrollTrigger.batch('.story-card', {
+      onEnter: (batch) =>
+        gsap.to(batch, {
+          duration: 0.8,
+          opacity: 1,
+          y: 0,
+          stagger: 0.15,
+          ease: 'back.out(1.7)',
+        }),
+      start: 'top 70%',
+      onLeaveBack: () => {},
+    });
+
+    gsap.set('.story-card', { opacity: 0, y: 40 });
+
+    // Gallery Items - Scale and fade on scroll
+    ScrollTrigger.batch('.gallery-item', {
+      onEnter: (batch) =>
+        gsap.to(batch, {
+          duration: 0.8,
+          opacity: 1,
+          scale: 1,
+          stagger: 0.1,
+          ease: 'back.out(1.5)',
+        }),
+      start: 'top 75%',
+    });
+
+    gsap.set('.gallery-item', { opacity: 0, scale: 0.8 });
+
+    // Plant Cards - Bounce effect on scroll
+    ScrollTrigger.batch('.plant-card', {
+      onEnter: (batch) =>
+        gsap.to(batch, {
+          duration: 0.7,
+          opacity: 1,
+          y: 0,
+          rotationX: 0,
+          stagger: 0.1,
+          ease: 'back.out(1.4)',
+        }),
+      start: 'top 70%',
+    });
+
+    gsap.set('.plant-card', { opacity: 0, y: 60, rotationX: -25 });
+
+    // Quiz Section - Fade in from left
+    gsap.to('.quiz-card', {
+      scrollTrigger: {
+        trigger: '.quiz-section',
+        start: 'top 70%',
       },
-      { threshold: 0.18 }
-    );
+      duration: 0.9,
+      opacity: 1,
+      x: 0,
+      ease: 'power2.out',
+    });
 
-    elements.forEach((el) => observer.observe(el));
+    gsap.set('.quiz-card', { opacity: 0, x: -50 });
+
+    // Stats Cards - Number counter effect + scale
+    ScrollTrigger.batch('.stat-card', {
+      onEnter: (batch) =>
+        gsap.to(batch, {
+          duration: 0.7,
+          opacity: 1,
+          y: 0,
+          stagger: 0.08,
+          ease: 'elastic.out(1, 0.8)',
+        }),
+      start: 'top 75%',
+    });
+
+    gsap.set('.stat-card', { opacity: 0, y: 50 });
+
+    // Letter Section - Typewriter effect on text
+    gsap.to('.letter-copy', {
+      scrollTrigger: {
+        trigger: '.letter-section',
+        start: 'top 60%',
+      },
+      duration: 1,
+      opacity: 1,
+      x: 0,
+      ease: 'power2.out',
+    });
+
+    gsap.set('.letter-copy', { opacity: 0, x: -40 });
+
+    // Unlock Section - Bounce in
+    gsap.to('.unlock-section', {
+      scrollTrigger: {
+        trigger: '.letter-section',
+        start: 'top 50%',
+      },
+      duration: 0.8,
+      opacity: 1,
+      scale: 1,
+      ease: 'back.out(1.7)',
+    });
+
+    gsap.set('.unlock-section', { opacity: 0, scale: 0.85 });
+
+    // Message Cards - Staggered reveal
+    ScrollTrigger.batch('.message-card', {
+      onEnter: (batch) =>
+        gsap.to(batch, {
+          duration: 0.6,
+          opacity: 1,
+          y: 0,
+          stagger: 0.1,
+          ease: 'back.out(1.5)',
+        }),
+      start: 'top 80%',
+    });
+
+    gsap.set('.message-card', { opacity: 0, y: 30 });
+
+    // Section Intros - Subtle fade and scale
+    gsap.to('.section-intro', {
+      scrollTrigger: {
+        trigger: '.section-intro',
+        start: 'top 75%',
+      },
+      duration: 0.8,
+      opacity: 1,
+      ease: 'power2.out',
+      stagger: 0.15,
+    });
+
+    gsap.set('.section-intro', { opacity: 0 });
+
+    // Parallax effect for hero section background
+    gsap.to('.hero-visual', {
+      scrollTrigger: {
+        trigger: '.hero-section',
+        start: 'top center',
+        end: 'bottom center',
+        scrub: 1,
+      },
+      y: 50,
+      ease: 'none',
+    });
+
+    // Fix ScrollTrigger on resize
+    ScrollTrigger.refresh();
   });
 };
 
@@ -524,6 +679,13 @@ onMounted(() => {
   window.history.replaceState(null, '', '#home');
   window.scrollTo(0, 0);
   setupRevealAnimations();
+
+  // Refresh ScrollTrigger after all content is loaded
+  setTimeout(() => ScrollTrigger.refresh(), 500);
+});
+
+onUnmounted(() => {
+  ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 });
 
 const plantList = [
